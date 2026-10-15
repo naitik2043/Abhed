@@ -1,0 +1,24 @@
+# deployment.imp — Abhed complete deployment rules (step by step)
+# Main app -> Vercel | Demo sites -> Render | State -> Supabase
+# Full guide: DEPLOYMENT.md | PDF: docs/Abhed_Deployment_Guide.pdf
+
+RULE 01: PREPARE — Node >= 20, GitHub repo naitik2043/Abhed, Vercel + Render + Supabase accounts.
+RULE 02: SECRETS — Never commit .env. Only .env.example with placeholders goes to git. .env* is git-ignored.
+RULE 03: SUPABASE FIRST — Create project, run SQL to create table abhed_state(id, version, world, updated_at). Copy SUPABASE_URL + SUPABASE_KEY. Test REST endpoint returns [].
+RULE 04: LOCAL VERIFY — npm install; npm run typecheck (must pass); npm test (62/62 must pass); npm run build (must succeed).
+RULE 05: START SCRIPT — Must be "next start" (respects $PORT on all hosts). Never hardcode -p 3000 in production.
+RULE 06: NEXT CONFIG — output:'standalone', poweredByHeader:false, reactStrictMode:true. Vercel ignores standalone safely.
+RULE 07: PUSH GITHUB — git init, remote add origin https://github.com/naitik2043/Abhed.git, branch -M main, commit step-by-step (50+ commits), push -u origin main.
+RULE 08: VERCEL MAIN — Import repo, framework Next.js, region bom1 (vercel.json), build npm run build. Set env: SUPABASE_URL, SUPABASE_KEY, GROQ_API_KEY?, GEMINI_API_KEY?, DIRECTOR_KEY?. Deploy.
+RULE 09: VERCEL CHECK — GET /api/health must return ok:true and store:"supabase" (not memory). Signup + /demo must work.
+RULE 10: RENDER BLUEPRINT — Use render.yaml (4 services: abhed-novabank, abhed-sanjeevani, abhed-bazaar, abhed-zentro). Build npm install. Start node sites/server.mjs (zentro: node sites/zentro/server.mjs). Health /health.
+RULE 11: RENDER ENV SDK SITES — SITE=novabank|sanjeevani|bazaar, KAVACH_URL=https://<vercel-app> (no slash), ADMIN_PIN=change-me, KAVACH_KEYS + KAVACH_ADMIN_KEY empty (filled by pairing), SITE_COOKIE_SECRET generated.
+RULE 12: RENDER ENV ZENTRO — Only ADMIN_PIN needed. No SDK keys.
+RULE 13: PAIR SDK SITES — Abhed Connect > SDK > Generate code (10 min) > site /admin > login PIN > paste code > Pair. Keys saved to /tmp/abhed-<tenant>.json. Fleet must show agents online.
+RULE 14: CONNECT ZENTRO (NO-CODE) — Abhed Connect > No code > Connect company > copy Base URL + kv_gw_* key > Zentro /admin > AI provider > paste Base URL https://<app>/api/gw/v1 + key, stream:false. curl /api/gw/v1/models with Bearer key must list models.
+RULE 15: E2E PROOF — Rex Rs.40000 refund held > approve on /approver phone > ledger entry > /ledger verify passes. Hidden-instruction export blocked + agent paused.
+RULE 16: COLD START — Render free sleeps; first load ~50s is normal. Retry, do not redeploy.
+RULE 17: ROTATION — Connect > New key revokes old immediately (401). Re-pair sites after rotation.
+RULE 18: ONCALL — store=memory means Supabase vars missing: add + Redeploy. 401 means key wrong. fetch failed means URL wrong. 429 on /admin means 5 wrong PINs: wait 60s.
+RULE 19: PDF — docs/Abhed_Deployment_Guide.pdf is the printable copy of DEPLOYMENT.md. Regenerate after guide changes: node scripts/make-deployment-pdf.mjs.
+RULE 20: DONE — All /health ok, Fleet online, demo + attack verified. Ship it.
