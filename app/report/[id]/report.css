@@ -1,0 +1,19 @@
+html:has(.rp), body:has(.rp) { background: #f6f6f3 !important; color: #111 !important; }
+.rp { max-width: 980px; margin: 0 auto; padding: 48px 40px 80px; font-family: "Inter", system-ui, sans-serif; color: #111; font-size: 13.5px; line-height: 1.55; }
+.rp-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; border-bottom: 2px solid #111; padding-bottom: 18px; margin-bottom: 22px; }
+.rp h1 { font-size: 26px; letter-spacing: -0.03em; font-weight: 600; margin-top: 6px; line-height: 1.2; }
+.rp h2 { font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; margin: 26px 0 10px; }
+.rp p { margin-bottom: 8px; }
+.rp ul { padding-left: 18px; }
+.rp table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.rp th, .rp td { text-align: left; border-bottom: 1px solid #ddd; padding: 6px 6px; vertical-align: top; }
+.rp th { font-weight: 600; background: #ecebe6; }
+.rp-k { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #666; }
+.rp-meta, .rp-muted { color: #555; }
+.rp-mono { font-family: "JetBrains Mono", monospace; font-size: 11px; }
+.rp-ok { color: #0d6b47; font-weight: 600; margin-top: 10px; }
+.rp-bad { color: #b3261e; font-weight: 600; margin-top: 10px; }
+.rp-print { appearance: none; border: 1px solid #111; background: #111; color: #fff; border-radius: 6px; padding: 10px 16px; font: 500 13px Inter, sans-serif; cursor: pointer; }
+.rp-sign { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 36px; border-top: 1px solid #111; padding-top: 18px; }
+.rp .grain { display: none; }
+@media print { .rp-print { display: none; } .rp { padding: 0; } }

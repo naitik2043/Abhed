@@ -1,0 +1,35 @@
+.atk { max-width: 520px; margin: 0 auto; padding: 22px 18px 40px; min-height: 100vh; }
+.atk-top { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 16px; margin-bottom: 26px; }
+.atk h1 { font-size: 30px; line-height: 1.15; letter-spacing: -0.03em; font-weight: 800; }
+.atk-sub { color: var(--muted); font-size: 15.5px; margin-top: 8px; line-height: 1.5; }
+.atk-label { display: block; font-size: 13px; font-weight: 700; color: var(--ink-2); margin: 22px 0 8px; }
+.atk-input { font-size: 16px; padding: 13px 14px; border-radius: 10px; }
+textarea.atk-input { resize: vertical; line-height: 1.45; }
+.atk-targets { display: grid; gap: 8px; }
+.atk-t { text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: grid; grid-template-columns: 1fr auto; row-gap: 2px; cursor: pointer; font: inherit; color: inherit; }
+.atk-t b { font-size: 17px; }
+.atk-t span { grid-row: 2; color: var(--muted); font-size: 13.5px; }
+.atk-t em { grid-row: span 2; align-self: center; font-style: normal; font-size: 12.5px; font-weight: 700; color: var(--block); background: var(--block-soft); padding: 4px 8px; border-radius: 6px; }
+.atk-t.on { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
+.atk-tries { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+.atk-tries button { text-align: left; font: inherit; font-size: 13.5px; color: var(--ink-2); background: var(--surface-2); border: 1px dashed var(--line); border-radius: 8px; padding: 9px 11px; cursor: pointer; }
+.atk-tries button:hover { border-color: var(--accent); }
+.atk-go { width: 100%; margin-top: 22px; height: 54px; border: 0; border-radius: 12px; background: var(--block); color: #fff; font: inherit; font-size: 17px; font-weight: 800; cursor: pointer; }
+.atk-go:disabled { background: #d5d9df; color: var(--muted-2); cursor: not-allowed; }
+.atk-err { color: var(--block); font-weight: 600; margin-top: 12px; }
+.atk-res { margin-top: 22px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+.atk-res h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 10px; }
+.atk-muted { color: var(--muted); font-size: 14.5px; }
+.atk-scan { font-size: 13.5px; font-weight: 600; color: var(--warn); background: var(--warn-soft); border-radius: 8px; padding: 8px 10px; margin-bottom: 8px; }
+.atk-step { border-left: 3px solid var(--line); padding: 6px 0 6px 12px; margin-bottom: 10px; }
+.atk-step.block { border-color: var(--block); }
+.atk-step.human { border-color: var(--human); }
+.atk-step.allow { border-color: var(--allow); }
+.atk-step-h { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+.atk-step-h b { font-size: 15px; text-transform: capitalize; }
+.atk-step-h span { font-size: 13px; font-weight: 800; white-space: nowrap; }
+.atk-step.block .atk-step-h span { color: var(--block); }
+.atk-step.human .atk-step-h span { color: var(--human); }
+.atk-step.allow .atk-step-h span { color: var(--allow); }
+.atk-step p { color: var(--muted); font-size: 13.5px; margin-top: 3px; line-height: 1.45; }
+.atk-foot { color: var(--muted-2); font-size: 12px; margin-top: 26px; line-height: 1.5; }
