@@ -1,0 +1,88 @@
+# Abhed — Render blueprint
+# Main app lives on Vercel (kavach-os.vercel.app).
+# These 4 services are the demo company websites (sites/*) on Render.
+# Deploy: Render Dashboard -> New -> Blueprint -> select this repo -> Apply.
+# Then in Abhed app: Connect -> SDK -> Generate pairing code -> paste code in each site's /admin.
+
+services:
+  - type: web
+    name: abhed-novabank
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node sites/server.mjs
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: 20.19.0
+      - key: SITE
+        value: novabank
+      - key: KAVACH_URL
+        value: https://kavach-os.vercel.app
+      - key: ADMIN_PIN
+        sync: false
+      - key: KAVACH_KEYS
+        sync: false
+      - key: KAVACH_ADMIN_KEY
+        sync: false
+      - key: SITE_COOKIE_SECRET
+        generateValue: true
+
+  - type: web
+    name: abhed-sanjeevani
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node sites/server.mjs
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: 20.19.0
+      - key: SITE
+        value: sanjeevani
+      - key: KAVACH_URL
+        value: https://kavach-os.vercel.app
+      - key: ADMIN_PIN
+        sync: false
+      - key: KAVACH_KEYS
+        sync: false
+      - key: KAVACH_ADMIN_KEY
+        sync: false
+      - key: SITE_COOKIE_SECRET
+        generateValue: true
+
+  - type: web
+    name: abhed-bazaar
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node sites/server.mjs
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: 20.19.0
+      - key: SITE
+        value: bazaar
+      - key: KAVACH_URL
+        value: https://kavach-os.vercel.app
+      - key: ADMIN_PIN
+        sync: false
+      - key: KAVACH_KEYS
+        sync: false
+      - key: KAVACH_ADMIN_KEY
+        sync: false
+      - key: SITE_COOKIE_SECRET
+        generateValue: true
+
+  - type: web
+    name: abhed-zentro
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node sites/zentro/server.mjs
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: 20.19.0
+      - key: ADMIN_PIN
+        sync: false
