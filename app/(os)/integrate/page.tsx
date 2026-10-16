@@ -2,7 +2,7 @@ import { ConnectGuide } from './guide';
 
 const SNIPPET = `import { Abhed } from './abhed-sdk.mjs';          // 69 lines, zero dependencies
 
-const abhed = new Abhed({ url: 'https://kavach-os.vercel.app', key: process.env.KAVACH_AGENT_KEY });
+const abhed = new Abhed({ url: 'https://abhed.vercel.app', key: process.env.KAVACH_AGENT_KEY });
 const me = await abhed.profile();                     // role, tool schemas, delegations
 const session = await abhed.session(task, { from });  // scanned for prompt injection first
 
@@ -15,7 +15,7 @@ while (true) {
   messages.push({ role: 'tool', tool_call_id: call.id, content: JSON.stringify(d) });
 }`;
 
-const CURL = `curl -X POST https://kavach-os.vercel.app/api/v1/tools/call \\
+const CURL = `curl -X POST https://abhed.vercel.app/api/v1/tools/call \\
   -H "Authorization: Bearer kv_live_…" -H "content-type: application/json" \\
   -d '{"sessionId":"S-12","tool":"issue_refund","args":{"customer":"C-1029","amount":40000}}'
 

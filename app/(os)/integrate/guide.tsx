@@ -44,7 +44,7 @@ function Code({ blocks }: { blocks: { label: string; text: string }[] }) {
 }
 
 export function ConnectGuide() {
-  const [origin, setOrigin] = useState('https://kavach-os.vercel.app');
+  const [origin, setOrigin] = useState('https://abhed.vercel.app');
   const [path, setPath] = useState<'nocode' | 'sdk'>('nocode');
   useEffect(() => setOrigin(window.location.origin), []);
   const base = `${origin}/api/gw/v1`;
@@ -124,7 +124,7 @@ export function ConnectGuide() {
       body: (
         <>
           Copy <span className="mono">sites/abhed-sdk.mjs</span> from the{' '}
-          <a href="https://github.com/HarshDubey23/hackarena/blob/main/sites/abhed-sdk.mjs" target="_blank" rel="noopener noreferrer">
+          <a href="https://github.com/naitik2043/Abhed/blob/main/sites/abhed-sdk.mjs" target="_blank" rel="noopener noreferrer">
             repository
           </a>{' '}
           into your project (about 70 lines, no dependencies) and give each agent its key.
