@@ -4,13 +4,13 @@
 
 RULE 01: PREPARE — Node >= 20, GitHub repo naitik2043/Abhed, Vercel + Render + Supabase accounts.
 RULE 02: SECRETS — Never commit .env. Only .env.example with placeholders goes to git. .env* is git-ignored.
-RULE 03: SUPABASE FIRST — Create project, run SQL to create table abhed_state(id, version, world, updated_at). Copy SUPABASE_URL + SUPABASE_KEY. Test REST endpoint returns [].
+RULE 03: SUPABASE FIRST — In SQL Editor, run supabase/migrations/20261016000000_abhed_production.sql. Copy SUPABASE_URL + publishable SUPABASE_KEY + server-only SUPABASE_SERVICE_ROLE_KEY. Never grant the publishable role direct access to kavach_state.
 RULE 04: LOCAL VERIFY — npm install; npm run typecheck (must pass); npm test (62/62 must pass); npm run build (must succeed).
 RULE 05: START SCRIPT — Must be "next start" (respects $PORT on all hosts). Never hardcode -p 3000 in production.
 RULE 06: NEXT CONFIG — output:'standalone', poweredByHeader:false, reactStrictMode:true. Vercel ignores standalone safely.
 RULE 07: PUSH GITHUB — git init, remote add origin https://github.com/naitik2043/Abhed.git, branch -M main, commit step-by-step (50+ commits), push -u origin main.
-RULE 08: VERCEL MAIN — Import repo, framework Next.js, region bom1 (vercel.json), build npm run build. Set env: SUPABASE_URL, SUPABASE_KEY, GROQ_API_KEY?, GEMINI_API_KEY?, DIRECTOR_KEY?. Deploy.
-RULE 09: VERCEL CHECK — GET /api/health must return ok:true and store:"supabase" (not memory). Signup + /demo must work.
+RULE 08: VERCEL MAIN — Import repo, framework Next.js, region bom1 (vercel.json), build npm run build. Set env: SUPABASE_URL, SUPABASE_KEY, SUPABASE_SERVICE_ROLE_KEY, KAVACH_AGENT_SECRET?, GROQ_API_KEY?, GEMINI_API_KEY?, DIRECTOR_KEY?. Deploy. Verify /api/health reports store=postgres.
+RULE 09: VERCEL CHECK — GET /api/health must return ok:true and store:"postgres" (not memory). Signup + /demo must work.
 RULE 10: RENDER BLUEPRINT — Use render.yaml (4 services: abhed-novabank, abhed-sanjeevani, abhed-bazaar, abhed-zentro). Build npm install. Start node sites/server.mjs (zentro: node sites/zentro/server.mjs). Health /health.
 RULE 11: RENDER ENV SDK SITES — SITE=novabank|sanjeevani|bazaar, KAVACH_URL=https://<vercel-app> (no slash), ADMIN_PIN=change-me, KAVACH_KEYS + KAVACH_ADMIN_KEY empty (filled by pairing), SITE_COOKIE_SECRET generated.
 RULE 12: RENDER ENV ZENTRO — Only ADMIN_PIN needed. No SDK keys.

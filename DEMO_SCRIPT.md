@@ -11,10 +11,10 @@
 Round 2 sheet: **Functionality/Relevance · Performance/Final Demo · UX/Design · Market Readiness/Impact · Implementation Plan/Future Scope** (har ek 20 marks). Neeche ka flow har parameter ko alag se, evidence ke saath cover karta hai.
 
 ### Setup (judging se 5 min pehle)
-1. **Laptop tab 1:** `kavach-os.vercel.app` — landing (ABHED intro chalega; dobara dikhana ho to `?` ke bina naye tab mein kholo).
-2. **Laptop tab 2:** `kavach-os.vercel.app/demo` → **Reset demo** dabao.
+1. **Laptop tab 1:** `abhed.vercel.app` — landing (ABHED intro chalega; dobara dikhana ho to `?` ke bina naye tab mein kholo).
+2. **Laptop tab 2:** `abhed.vercel.app/demo` → **Reset demo** dabao.
 3. **Laptop tab 3:** `novabank-agents.onrender.com` (Render ko jagane ke liye pehle khol lo).
-4. **Phone:** `kavach-os.vercel.app/approver` → NovaBank → **Guest Judge** → PIN **1234** → go on duty.
+4. **Phone:** `abhed.vercel.app/approver` → NovaBank → **Guest Judge** → PIN **1234** → go on duty.
 
 ### 1 · Opening — UX/Design (45 s)
 Landing kholo. ABHED title sequence chalne do (3–4 s), phir hero.
@@ -86,12 +86,12 @@ Round 1 = ideation. Deck sirf idea, approach aur plan dikhata hai (diagrams); we
 
 | Kya | Kahan |
 |---|---|
-| Laptop tab 1 | https://kavach-os.vercel.app/fleet (Fleet dashboard) |
+| Laptop tab 1 | https://abhed.vercel.app/fleet (Fleet dashboard) |
 | Laptop tab 2 | https://novabank-agents.onrender.com |
 | Laptop tab 3 | https://sanjeevani-agents.onrender.com |
 | Laptop tab 4 | https://bazaar-agents.onrender.com |
 | Laptop tab 5 | https://bazaar-agents.onrender.com/admin (PIN **2468**) |
-| Phone | https://kavach-os.vercel.app/approver → "Add to Home Screen" |
+| Phone | https://abhed.vercel.app/approver → "Add to Home Screen" |
 
 **Phone pe sign in:** Company **NovaBank** → **Guest Judge** → PIN **1234** → *go on duty*. Phir *Profile* tab → "add this company" se **Sanjeevani** aur **Bazaar.in** bhi add karo (same PIN 1234). Ab ek phone teeno companies cover karta hai. "turn on buzz" dabao.
 
@@ -102,7 +102,7 @@ Round 1 = ideation. Deck sirf idea, approach aur plan dikhata hai (diagrams); we
 
 ## 1 · Problem (1 min) — Business page
 
-Open **kavach-os.vercel.app/business**.
+Open **abhed.vercel.app/business**.
 
 - "Agents ab human permissions ke saath kaam karte hain, par accountability nahi hai. Ya to har cheez pe approval (agent bekaar) ya kuch nahi (ek galti = lakhon ka nuksaan)."
 - Problems list ke 9 points mein se 3 bolo: **hallucinated actions**, **prompt injection / data leak**, **audit trail edit ho sakti hai**.

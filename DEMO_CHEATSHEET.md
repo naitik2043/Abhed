@@ -6,11 +6,11 @@
 
 | Tab | Kholo |
 |---|---|
-| 1 | `kavach-os.vercel.app` (landing) |
-| 2 | `kavach-os.vercel.app/arena?full=1` → neeche **clear** → PIN **2468** |
-| 3 | `kavach-os.vercel.app/demo` → **Reset demo** |
+| 1 | `abhed.vercel.app` (landing) |
+| 2 | `abhed.vercel.app/arena?full=1` → neeche **clear** → PIN **2468** |
+| 3 | `abhed.vercel.app/demo` → **Reset demo** |
 | 4 | `sanjeevani-agents.onrender.com` aur `/admin` (pehle khol do, 40 s) · AI = **built-in rules** · Abhed → Connect pe Zentro na ho |
-| Phone | `kavach-os.vercel.app/approver` → NovaBank → **Guest Judge** → PIN **1234** → go on duty |
+| Phone | `abhed.vercel.app/approver` → NovaBank → **Guest Judge** → PIN **1234** → go on duty |
 
 ## 1 · Opening — Landing (30 s)
 

@@ -1,5 +1,5 @@
 # Abhed — Render blueprint
-# Main app lives on Vercel (kavach-os.vercel.app).
+# Main app lives on Vercel (abhed.vercel.app).
 # These 4 services are the demo company websites (sites/*) on Render.
 # Deploy: Render Dashboard -> New -> Blueprint -> select this repo -> Apply.
 # Then in Abhed app: Connect -> SDK -> Generate pairing code -> paste code in each site's /admin.
@@ -18,7 +18,7 @@ services:
       - key: SITE
         value: novabank
       - key: KAVACH_URL
-        value: https://kavach-os.vercel.app
+        value: https://abhed.vercel.app
       - key: ADMIN_PIN
         sync: false
       - key: KAVACH_KEYS
@@ -41,7 +41,7 @@ services:
       - key: SITE
         value: sanjeevani
       - key: KAVACH_URL
-        value: https://kavach-os.vercel.app
+        value: https://abhed.vercel.app
       - key: ADMIN_PIN
         sync: false
       - key: KAVACH_KEYS
@@ -64,7 +64,7 @@ services:
       - key: SITE
         value: bazaar
       - key: KAVACH_URL
-        value: https://kavach-os.vercel.app
+        value: https://abhed.vercel.app
       - key: ADMIN_PIN
         sync: false
       - key: KAVACH_KEYS

@@ -10,12 +10,12 @@ Round 2: **Functionality/Relevance · Performance/Final Demo · UX/Design · Mar
 
 | Kahan | Kya kholna hai | Kyun |
 |---|---|---|
-| Laptop tab 1 | `kavach-os.vercel.app` | Landing + ABHED intro |
-| Laptop tab 2 (projector) | `kavach-os.vercel.app/arena?full=1` | **War Room** — judges yahin attack dekhenge |
-| Laptop tab 3 | `kavach-os.vercel.app/demo` → **Reset demo** | Three moments |
+| Laptop tab 1 | `abhed.vercel.app` | Landing + ABHED intro |
+| Laptop tab 2 (projector) | `abhed.vercel.app/arena?full=1` | **War Room** — judges yahin attack dekhenge |
+| Laptop tab 3 | `abhed.vercel.app/demo` → **Reset demo** | Three moments |
 | Laptop tab 4 | `novabank-agents.onrender.com` | Render free plan so jaata hai — pehle jagao (30–50 s lagte hain) |
-| Laptop tab 5 | `kavach-os.vercel.app/readiness` | Market + roadmap |
-| Aapka phone | `kavach-os.vercel.app/approver` → NovaBank → **Guest Judge** → PIN **1234** → go on duty | Phone approval |
+| Laptop tab 5 | `abhed.vercel.app/readiness` | Market + roadmap |
+| Aapka phone | `abhed.vercel.app/approver` → NovaBank → **Guest Judge** → PIN **1234** → go on duty | Phone approval |
 
 **Projector:** War Room ko browser zoom 90% pe rakho taaki pipeline + feed + monitor ek screen mein aayein.
 

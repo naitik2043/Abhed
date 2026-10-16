@@ -6,7 +6,7 @@ AI agents now refund customers, change records and send data on their own. When 
 
 *Abhed* (अभेद) is Hindi for "impenetrable".
 
-**Live:** [kavach-os.vercel.app](https://kavach-os.vercel.app) · Built for **CodeX 3.0 · Hack Arena · PS5: AI Agent Governance and Human Accountability Operating System**. The companies in the demo (NovaBank, Bazaar.in, Zentro Logistics and the rest) are fictional.
+**Live:** [abhed.vercel.app](https://abhed.vercel.app) · Built for **CodeX 3.0 · Hack Arena · PS5: AI Agent Governance and Human Accountability Operating System**. The companies in the demo (NovaBank, Bazaar.in, Zentro Logistics and the rest) are fictional.
 
 **Documents:** [Connect guide (PDF)](docs/Abhed_Connect_Guide.pdf) · [How the gateway works, 2 pages (PDF)](docs/Abhed_Gateway_Explained.pdf) · [Solution brief](docs/Abhed_Solution_Brief.pdf) · [Pricing note](docs/Abhed_Pricing_Note.pdf) · [Round 1 deck](docs/Abhed_Round1_Deck.pdf) · [Deployment guide](docs/Abhed_Deployment_Guide.pdf) · [Demo script](DEMO_SCRIPT.md) · [Full deploy steps](DEPLOYMENT.md)
 
@@ -58,11 +58,11 @@ AI agents now refund customers, change records and send data on their own. When 
 2. Point agents at Abhed:
 
 ```bash
-OPENAI_BASE_URL=https://kavach-os.vercel.app/api/gw/v1
+OPENAI_BASE_URL=https://abhed.vercel.app/api/gw/v1
 OPENAI_API_KEY=kv_gw_your_key_here
 ```
 
-3. Check: `curl https://kavach-os.vercel.app/api/gw/v1/models -H "Authorization: Bearer kv_gw_..."`.
+3. Check: `curl https://abhed.vercel.app/api/gw/v1/models -H "Authorization: Bearer kv_gw_..."`.
 4. Send any agent message. Actions must be OpenAI **tool calls** to be checked.
 5. Watch the gate: refused calls are stripped with reason; big calls wait for a person in Connect.
 
@@ -117,13 +117,13 @@ npm test             # 62 tests
 npm run typecheck
 ```
 
-Optional env (see `.env.example`): `SUPABASE_URL`, `SUPABASE_KEY`, `GROQ_API_KEY` / `GEMINI_API_KEY`, `DIRECTOR_KEY`.
+Environment setup is in `.env.example`: Supabase URL + publishable key for account RPCs, a server-only Supabase secret key for shared state, and optional `KAVACH_AGENT_SECRET`, LLM keys, and `DIRECTOR_KEY`.
 
 ## Deploy it
 
 Full step-by-step: [DEPLOYMENT.md](DEPLOYMENT.md) · rules: [deployment.imp](deployment.imp) · printable: [docs/Abhed_Deployment_Guide.pdf](docs/Abhed_Deployment_Guide.pdf)
 
-- Main app → Vercel (`vercel.json` region `bom1`), env: Supabase + LLM keys. Verify `/api/health` shows `store: supabase`.
+- Main app → Vercel (`vercel.json` region `bom1`), env: Supabase + LLM keys. Verify `/api/health` shows `store: postgres`.
 - Demo sites → Render via `render.yaml` Blueprint (NovaBank, Sanjeevani, Bazaar, Zentro). Health `/health`.
 - Link via pairing code (`/admin`) or no-code Base URL + key. Verify Fleet online + e2e refund + attack block.
 

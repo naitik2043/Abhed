@@ -9,11 +9,11 @@
 | Cheez | Link / PIN |
 |---|---|
 | Company website (Zentro Logistics) | `sanjeevani-agents.onrender.com` (admin: `/admin`, PIN **2468**) — Render pe jagah khaali hone tak Zentro isi URL pe chal raha hai |
-| Abhed Connect | `kavach-os.vercel.app/connect` → **No code** |
+| Abhed Connect | `abhed.vercel.app/connect` → **No code** |
 
 ### A0 · Demo se 15 min pehle
 1. Zentro site kholo (jaagne mein 40–50 s). Upar right **"AI: built-in rules"** dikhna chahiye.
-2. Agar pichli rehearsal se **"AI: kavach-os.vercel.app"** dikhe → Zentro `/admin` → **Built-in rules** → **Save** → **Reset demo data**.
+2. Agar pichli rehearsal se **"AI: abhed.vercel.app"** dikhe → Zentro `/admin` → **Built-in rules** → **Save** → **Reset demo data**.
 3. Abhed → Connect → In Abhed list mein koi purani Zentro row nahi honi chahiye (ho toh row kholo → **Remove company** → 2468). Purani row ki key Zentro mein mat daalna — har demo mein nayi company, nayi key.
 
 ### A1 · "Pehle": company ke agents bina nigrani ke (1 min)
@@ -33,10 +33,10 @@ Right side: **"Exported 12,480 customer records (names, emails, phones, PAN)"** 
 
 ### A3 · Company ki AI setting badlo — bina code (30 s) ⭐
 **DIKHAO:** Zentro `/admin` (PIN 2468) → **AI provider** page:
-1. **Base URL** box mein paste: `https://kavach-os.vercel.app/api/gw/v1` (type karte hi **OpenAI-compatible** apne aap select ho jaata hai).
+1. **Base URL** box mein paste: `https://abhed.vercel.app/api/gw/v1` (type karte hi **OpenAI-compatible** apne aap select ho jaata hai).
 2. **API key** box mein Abhed wali `kv_gw_…` key paste.
 3. Model wahi rehne do → **Save**.
-4. Save khud connection test karta hai. Neeche **hara ✓ "Connected to kavach-os.vercel.app. Key accepted."** aana chahiye, aur upar **"Now: OpenAI-compatible · kavach-os.vercel.app"**.
+4. Save khud connection test karta hai. Neeche **hara ✓ "Connected to abhed.vercel.app. Key accepted."** aana chahiye, aur upar **"Now: OpenAI-compatible · abhed.vercel.app"**.
 5. Usi waqt Abhed Connect pe Zentro row: **"key verified · waiting for the first agent message"**.
 
 > **BOLO:** "Na code, na terminal, na redeploy. Sirf setting. Yahi kaam kisi bhi company ke dashboard mein hota hai jahan OpenAI key daalte hain."
@@ -45,14 +45,14 @@ Right side: **"Exported 12,480 customer records (names, emails, phones, PAN)"** 
 | Message | Matlab | Kya karo |
 |---|---|---|
 | `Unknown Abhed gateway key` | Key galat / purani (New key dabaya tha) | Abhed → Zentro row → **New key** → naya key copy → Zentro admin mein paste → Save |
-| `fetch failed` / timeout | Base URL galat | Exactly `https://kavach-os.vercel.app/api/gw/v1` daalo |
+| `fetch failed` / timeout | Base URL galat | Exactly `https://abhed.vercel.app/api/gw/v1` daalo |
 | `Could not save. Sign in again.` | Admin session khatam | Page refresh → PIN 2468 |
 | Site khul hi nahi rahi | Render so raha hai | 40–50 s ruko, refresh mat karo |
 
 ⚠️ Zentro free Render pe hai: site **restart/redeploy** hone pe yeh setting wapas *built-in* ho jaati hai. Isliye setting **demo ke dauraan live** karo (wahi toh dikhana hai), aur demo se pehle repo mein push mat karna.
 
 ### A4 · Agents khud Abhed mein aate hain (1 min) ⭐⭐
-**DIKHAO:** Zentro site → upar ab **"AI: kavach-os.vercel.app"**. Vault ko wahi export wala message bhejo.
+**DIKHAO:** Zentro site → upar ab **"AI: abhed.vercel.app"**. Vault ko wahi export wala message bhejo.
 - Zentro chat: **"⛔ Abhed blocked “export_customers”: Bulk data access…"** — counter nahi badhta.
 - Abhed Connect: Zentro row khulti hai → **"Agent discovered: Vault"**, Live mein `export_customers` **Stopped · GW-BULK**.
 
@@ -89,7 +89,7 @@ Abhed Connect → Zentro → **New key** (purani key turant band) ya **Remove co
 
 | Cheez | Link / PIN |
 |---|---|
-| Abhed Connect page | `kavach-os.vercel.app/connect` |
+| Abhed Connect page | `abhed.vercel.app/connect` |
 | Bazaar website | `bazaar-agents.onrender.com` (admin: `/admin`) |
 | Sanjeevani website | `sanjeevani-agents.onrender.com` (admin: `/admin`) |
 | Website admin PIN | **2468** |
@@ -104,9 +104,9 @@ Abhed Connect → Zentro → **New key** (purani key turant band) ya **Remove co
    - `bazaar-agents.onrender.com`
    - `sanjeevani-agents.onrender.com`
 2. Dono pe peela banner dikhna chahiye: **"Our AI assistants are switched off."** Yahi chahiye.
-3. Abhed mein `kavach-os.vercel.app/connect` kholo → upar right **Reset demo** → PIN **2468**. Ab **"In Abhed"** list mein sirf **NovaBank** hona chahiye.
+3. Abhed mein `abhed.vercel.app/connect` kholo → upar right **Reset demo** → PIN **2468**. Ab **"In Abhed"** list mein sirf **NovaBank** hona chahiye.
    - Reset ke 10 s ke andar pehle se jude websites khud band ho jaate hain.
-4. Phone pe approver app kholo: `kavach-os.vercel.app/approver` → **NovaBank** → **Guest Judge** → PIN **1234** → **Go on duty**. (Bazaar abhi list mein nahi hoga — join ke baad add karna, Step 5 dekho.)
+4. Phone pe approver app kholo: `abhed.vercel.app/approver` → **NovaBank** → **Guest Judge** → PIN **1234** → **Go on duty**. (Bazaar abhi list mein nahi hoga — join ke baad add karna, Step 5 dekho.)
 
 **Tabs ka order (laptop):**
 1. Abhed Connect
@@ -204,7 +204,7 @@ Sanjeevani join hone ke baad approver app mein add karo: Profile → **Add anoth
 
 Agar sir bolein *"deploy karke dikhao"*:
 
-1. `dashboard.render.com` → **New** → **Web Service** → repo **HarshDubey23/hackarena**
+1. `dashboard.render.com` → **New** → **Web Service** → repo **naitik2043/Abhed**
 2. Settings:
    - **Name:** `bazaar-live` (kuch bhi)
    - **Region:** Singapore
@@ -216,7 +216,7 @@ Agar sir bolein *"deploy karke dikhao"*:
    | Key | Value |
    |---|---|
    | `SITE` | `bazaar` (ya `sanjeevani`) |
-   | `KAVACH_URL` | `https://kavach-os.vercel.app` |
+   | `KAVACH_URL` | `https://abhed.vercel.app` |
    | `ADMIN_PIN` | `2468` |
 
 4. **Create Web Service** → 1–2 min mein live. URL kholo → *"assistants are switched off"*.
