@@ -179,7 +179,7 @@ export default function StudioFooter() {
         </div>
         <p className="sf-note">*no code change. paste a base URL and a key.</p>
         <div className="sf-socials">
-          <a href="https://github.com/HarshDubey23/hackarena" target="_blank" rel="noopener noreferrer" aria-label="Source on GitHub">
+          <a href="https://github.com/naitik2043/Abhed" target="_blank" rel="noopener noreferrer" aria-label="Source on GitHub">
             {Icon.github}
           </a>
           <Link href="/story" aria-label="How Abhed works">
