@@ -8,7 +8,7 @@ export class AbhedError extends Error {
 export class Abhed {
   constructor({ url, key, site }) {
     if (!key) throw new Error('KAVACH_AGENT_KEY missing');
-    this.url = (url ?? 'https://kavach-os.vercel.app').replace(/\/$/, '');
+    this.url = (url ?? 'https://abhed.vercel.app').replace(/\/$/, '');
     this.key = key;
     this.site = site;
   }

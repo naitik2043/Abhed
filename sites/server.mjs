@@ -22,7 +22,7 @@ if (process.env.SITE === 'zentro') {
 async function startSite() {
 const SITE = SITES[process.env.SITE ?? 'novabank'];
 if (!SITE) throw new Error(`Unknown SITE ${process.env.SITE}`);
-const KAVACH_URL = (process.env.KAVACH_URL ?? 'https://kavach-os.vercel.app').replace(/\/$/, '');
+const KAVACH_URL = (process.env.KAVACH_URL ?? 'https://abhed.vercel.app').replace(/\/$/, '');
 const PORT = Number(process.env.PORT ?? 4000);
 const PUBLIC_URL = (process.env.RENDER_EXTERNAL_URL ?? process.env.PUBLIC_URL ?? `http://localhost:${PORT}`).replace(/\/$/, '');
 const ADMIN_PIN = process.env.ADMIN_PIN ?? '2468';
