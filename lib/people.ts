@@ -28,7 +28,7 @@ export function canDecide(h: Human, ap: Approval): { ok: boolean; why?: string }
 export const isApprover = (h: Human) => h.roles.some((r) => APPROVER_ROLES.includes(r));
 
 // ───────── tokens ─────────
-const secret = () => process.env.KAVACH_AGENT_SECRET ?? process.env.SUPABASE_KEY ?? 'kavach-local-dev-secret';
+const secret = () => process.env.KAVACH_AGENT_SECRET ?? process.env.SUPABASE_SERVICE_ROLE_KEY ?? 'kavach-local-dev-secret';
 const b64 = (s: string) => Buffer.from(s).toString('base64url');
 
 export function signToken(tenant: string, humanId: string, ttlMs = 12 * 3_600_000) {

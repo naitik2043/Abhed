@@ -2,11 +2,12 @@ import { AsyncLocalStorage } from 'node:async_hooks';
 import { readFileSync } from 'node:fs';
 import { tick } from './engine';
 import { seedWorld } from './seed';
+import { supabaseApiHeaders } from './supabase-headers';
 import type { LiveDoc, World } from './types';
 
 /**
  * State lives in one place so the laptop, the agents and the judge's phone always see the same world.
- * - SUPABASE_URL + SUPABASE_KEY (or SUPABASE_SERVICE_ROLE_KEY) set → rows in Postgres (works on serverless).
+ * - SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY set → rows in Postgres (works on serverless).
  * - otherwise → process memory (local dev, tests, single-instance hosts).
  * Two documents: "main" (governance: registry, rules, approvals, ledger) and "live" (heartbeats, approver
  * phones, agent thoughts), so fast-changing runtime data never contends with ledger writes.
@@ -47,7 +48,7 @@ const memory: Backend = {
 };
 
 function supabase(url: string, key: string, table: string): Backend {
-  const headers = { apikey: key, authorization: `Bearer ${key}`, 'content-type': 'application/json' };
+  const headers = supabaseApiHeaders(key);
   return {
     async load<T extends Doc>(id: string): Promise<T | null> {
       const res = await fetch(`${url}/rest/v1/${table}?id=eq.${id}&select=world`, { headers, cache: 'no-store' });
@@ -78,13 +79,15 @@ function supabase(url: string, key: string, table: string): Backend {
 
 function backend(): Backend {
   const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.SUPABASE_KEY;
+  // Shared governance state is writable, so it must use a server-only key. The
+  // publishable key is intentionally insufficient for this table.
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (url && key) return supabase(url.replace(/\/$/, ''), key, process.env.KAVACH_TABLE ?? 'kavach_state');
   return memory;
 }
 
 export const storeKind = () =>
-  process.env.SUPABASE_URL && (process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.SUPABASE_KEY) ? 'postgres' : 'memory';
+  process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY ? 'postgres' : 'memory';
 
 async function mutateDoc<D extends Doc, T>(id: string, init: () => D, fn: (d: D) => T, attempts = 8): Promise<{ doc: D; result: T }> {
   const b = backend();

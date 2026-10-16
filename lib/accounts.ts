@@ -1,4 +1,5 @@
 import { createHash, randomBytes, scryptSync, timingSafeEqual } from 'node:crypto';
+import { supabaseApiHeaders } from './supabase-headers';
 
 /**
  * Accounts for the Abhed site: sign up, sign in, the signed-in person, sign out, and contact messages.
@@ -62,7 +63,7 @@ async function rpc<T>(fn: string, args: Record<string, unknown>): Promise<{ data
   const c = db()!;
   const r = await fetch(`${c.url}/rest/v1/rpc/${fn}`, {
     method: 'POST',
-    headers: { apikey: c.key, authorization: `Bearer ${c.key}`, 'content-type': 'application/json' },
+    headers: supabaseApiHeaders(c.key),
     body: JSON.stringify(args),
     cache: 'no-store',
   });

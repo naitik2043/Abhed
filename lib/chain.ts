@@ -22,7 +22,7 @@ let cached: { priv: KeyObject; pub: KeyObject; pubHex: string } | null = null;
 function keys() {
   if (cached) return cached;
   // a 32-byte seed from KAVACH_SIGNING_SEED (hex) or derived from the server secret; never sent to the browser
-  const seedHex = process.env.KAVACH_SIGNING_SEED ?? sha256(`kavach-ed25519:${process.env.KAVACH_AGENT_SECRET ?? process.env.SUPABASE_KEY ?? 'local-dev'}`);
+  const seedHex = process.env.KAVACH_SIGNING_SEED ?? sha256(`kavach-ed25519:${process.env.KAVACH_AGENT_SECRET ?? process.env.SUPABASE_SERVICE_ROLE_KEY ?? 'local-dev'}`);
   const priv = createPrivateKey({ key: Buffer.concat([PKCS8_ED25519, Buffer.from(seedHex.slice(0, 64), 'hex')]), format: 'der', type: 'pkcs8' });
   const pub = createPublicKey(priv);
   const pubHex = (pub.export({ format: 'der', type: 'spki' }) as Buffer).subarray(-32).toString('hex');
