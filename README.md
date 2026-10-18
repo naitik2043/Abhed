@@ -18,14 +18,14 @@ AI agents now refund customers, change records and send data on their own. When 
 
 1. [About](#about)
 2. [What Abhed does](#what-abhed-does)
-2. [How one decision works](#how-one-decision-works)
-3. [Connect your own website](#connect-your-own-website-step-by-step)
-4. [Try the live demo](#try-the-live-demo)
-5. [Architecture](#architecture)
-6. [Security](#security)
-7. [Run it yourself](#run-it-yourself)
-8. [Deploy it](#deploy-it)
-9. [Honest limits](#honest-limits)
+3. [How one decision works](#how-one-decision-works)
+4. [Connect your own website](#connect-your-own-website-step-by-step)
+5. [Try the live demo](#try-the-live-demo)
+6. [Architecture](#architecture)
+7. [Security](#security)
+8. [Run it yourself](#run-it-yourself)
+9. [Deploy it](#deploy-it)
+10. [Honest limits](#honest-limits)
 
 ---
 
