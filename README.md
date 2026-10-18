@@ -2,6 +2,8 @@
 
 > **One gate for every action an AI agent takes. A person for the big ones. A ledger no one can edit.**
 
+## About
+
 AI agents now refund customers, change records and send data on their own. When one gets it wrong, a company has to be able to say **who allowed it, why, and prove it**. Abhed sits between an agent's decision and the real action, checks every action against rules before it runs, sends the risky ones to the right person on their phone, and writes every decision to a tamper-evident ledger.
 
 *Abhed* (अभेद) is Hindi for "impenetrable".
@@ -14,7 +16,8 @@ AI agents now refund customers, change records and send data on their own. When 
 
 ## Contents
 
-1. [What Abhed does](#what-abhed-does)
+1. [About](#about)
+2. [What Abhed does](#what-abhed-does)
 2. [How one decision works](#how-one-decision-works)
 3. [Connect your own website](#connect-your-own-website-step-by-step)
 4. [Try the live demo](#try-the-live-demo)
