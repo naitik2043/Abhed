@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { LiveFeed } from '@/components/site';
-import { TEAM } from '@/lib/site';
 import { LiveStats } from './live-stats';
 
 export const metadata: Metadata = {
@@ -101,41 +100,6 @@ export default function AboutPage() {
             <article key={t} className="st-card slim">
               <h3>{t}</h3>
               <p>{d}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="st-sec">
-        <p className="st-kicker">The team</p>
-        <h2 className="st-h2 st-team-h">Five people, one gate.</h2>
-        <p className="st-p st-team-sub">Abhed was built by a team of five for CodeX 3.0. Security and the backend, the screens, the research behind the design, and the business case each had an owner.</p>
-        <div className="st-team">
-          {TEAM.map((p) => (
-            <article key={p.name} className="st-person">
-              <span className="st-person-av" aria-hidden="true">
-                {p.name
-                  .split(' ')
-                  .map((w) => w[0])
-                  .join('')
-                  .slice(0, 2)}
-              </span>
-              <div>
-                <h3>{p.name}</h3>
-                <p className="st-person-role">{p.role}</p>
-                <p>{p.note}</p>
-                <p className="st-did-h">What they did</p>
-                <ul className="st-did">
-                  {p.did.map((d) => (
-                    <li key={d}>{d}</li>
-                  ))}
-                </ul>
-                <ul className="st-areas" aria-label={`${p.name} worked on`}>
-                  {p.areas.map((a) => (
-                    <li key={a}>{a}</li>
-                  ))}
-                </ul>
-              </div>
             </article>
           ))}
         </div>
