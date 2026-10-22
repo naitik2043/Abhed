@@ -39,7 +39,7 @@ export function seedWorld(now = Date.now(), opts: { sector?: string; history?: b
   // NovaBank's website ships connected; the other two are connected live, in front of the judges
   w.connection =
     pack.id === 'banking'
-      ? { status: 'connected', since: now, site: { url: 'https://novabank-agents.onrender.com', name: pack.company.replace(' (fictional)', ''), at: now }, timeline: [{ at: now, text: 'Website connected at setup', tone: 'ok' }] }
+      ? { status: 'connected', since: now, site: { url: 'https://abhed-novabank.onrender.com', name: pack.company.replace(' (fictional)', ''), at: now }, timeline: [{ at: now, text: 'Website connected at setup', tone: 'ok' }] }
       : { status: 'disconnected', timeline: [] };
   // demo companies: every employee starts with the default PIN; the company admin changes it
   for (const h of w.humans) h.pin ??= hashPin(h.id, DEFAULT_PIN);
