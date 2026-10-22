@@ -34,9 +34,10 @@ const LEGACY_SITE_URLS: Record<string, string> = {
 };
 
 export const conn = (w: World): Connection => {
-  const connection = w.connection ?? { status: 'connected' as const, timeline: [] };
+  const connection: Connection = w.connection ?? { status: 'connected', timeline: [] };
   const site = connection.site;
-  const currentUrl = site && LEGACY_SITE_URLS[site.url.replace(/\\/$/, '')];
+  const savedUrl = site ? (site.url.endsWith('/') ? site.url.slice(0, -1) : site.url) : '';
+  const currentUrl = site && LEGACY_SITE_URLS[savedUrl];
   return currentUrl && site ? { ...connection, site: { ...site, url: currentUrl } } : connection;
 };
 export const isVisible = (w: World) => conn(w).status === 'connected';
