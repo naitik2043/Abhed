@@ -21,9 +21,9 @@ services:
         value: https://abhed.vercel.app
       - key: ADMIN_PIN
         sync: false
-      - key: KAVACH_KEYS
+      - key: ABHED_KEYS
         sync: false
-      - key: KAVACH_ADMIN_KEY
+      - key: ABHED_ADMIN_KEY
         sync: false
       - key: SITE_COOKIE_SECRET
         generateValue: true
@@ -44,9 +44,9 @@ services:
         value: https://abhed.vercel.app
       - key: ADMIN_PIN
         sync: false
-      - key: KAVACH_KEYS
+      - key: ABHED_KEYS
         sync: false
-      - key: KAVACH_ADMIN_KEY
+      - key: ABHED_ADMIN_KEY
         sync: false
       - key: SITE_COOKIE_SECRET
         generateValue: true
@@ -67,9 +67,9 @@ services:
         value: https://abhed.vercel.app
       - key: ADMIN_PIN
         sync: false
-      - key: KAVACH_KEYS
+      - key: ABHED_KEYS
         sync: false
-      - key: KAVACH_ADMIN_KEY
+      - key: ABHED_ADMIN_KEY
         sync: false
       - key: SITE_COOKIE_SECRET
         generateValue: true
