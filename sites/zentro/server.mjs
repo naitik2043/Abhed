@@ -40,11 +40,21 @@ const seed = () => ({
 });
 let db = seed();
 
+const aiEnv = {
+  mode: process.env.ZENTRO_AI_MODE,
+  baseUrl: process.env.ZENTRO_AI_BASE_URL,
+  apiKey: process.env.ZENTRO_AI_API_KEY,
+  model: process.env.ZENTRO_AI_MODEL,
+};
 let ai = { mode: 'builtin', baseUrl: '', apiKey: '', model: 'openai/gpt-oss-120b' };
 try {
   ai = { ...ai, ...JSON.parse(readFileSync(STATE, 'utf8')) };
 } catch {
   /* first start: built-in rules */
+}
+// Render environment values are authoritative so the AI connection survives free-instance restarts.
+for (const key of ['mode', 'baseUrl', 'apiKey', 'model']) {
+  if (typeof aiEnv[key] === 'string' && aiEnv[key]) ai[key] = aiEnv[key];
 }
 const saveAi = () => {
   try {
