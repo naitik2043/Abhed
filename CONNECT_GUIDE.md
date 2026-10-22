@@ -216,7 +216,7 @@ Agar sir bolein *"deploy karke dikhao"*:
    | Key | Value |
    |---|---|
    | `SITE` | `bazaar` (ya `sanjeevani`) |
-   | `KAVACH_URL` | `https://abhed.vercel.app` |
+   | `ABHED_URL` | `https://abhed.vercel.app` |
    | `ADMIN_PIN` | `2468` |
 
 4. **Create Web Service** → 1–2 min mein live. URL kholo → *"assistants are switched off"*.
