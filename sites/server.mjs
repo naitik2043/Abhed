@@ -97,7 +97,7 @@ async function pairWith(code) {
     /* read-only disk: stays in memory */
   }
   void beat();
-  return { status: 200, data: { ok: true, company: d.company, agents: SITE.agents.filter((a) => clients[a.id]).map((a) => a.name), record: d.record } };
+  return { status: 200, data: { ok: true, company: d.company, agents: SITE.agents.filter((a) => clients[a.id]).map((a) => a.name), record: d.record, keys: d.keys, adminKey: d.adminKey } };
 }
 function dropLink(reason) {
   useKeys({}, '');
