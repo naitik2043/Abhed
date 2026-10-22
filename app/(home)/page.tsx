@@ -33,7 +33,7 @@ export default function Home() {
           </div>
         </div>
         <div className="lh-logos" aria-label="Companies governed in the demo">
-          <a href="https://novabank-agents.onrender.com" target="_blank" rel="noopener noreferrer" aria-label="NovaBank, a governed demo company">
+          <a href="https://abhed-novabank.onrender.com" target="_blank" rel="noopener noreferrer" aria-label="NovaBank, a governed demo company">
             <svg viewBox="0 0 30 31" aria-hidden="true">
               <defs>
                 <mask id="lhm1">
@@ -46,7 +46,7 @@ export default function Home() {
             </svg>
             <b>novabank</b>
           </a>
-          <a href="https://sanjeevani-agents.onrender.com" target="_blank" rel="noopener noreferrer" aria-label="Sanjeevani Hospital, a governed demo company">
+          <a href="https://abhed-sanjeevani.onrender.com" target="_blank" rel="noopener noreferrer" aria-label="Sanjeevani Hospital, a governed demo company">
             <svg viewBox="0 0 25 30" aria-hidden="true">
               <defs>
                 <mask id="lhm2">
@@ -60,7 +60,7 @@ export default function Home() {
             </svg>
             <b>sanjeevani</b>
           </a>
-          <a href="https://bazaar-agents.onrender.com" target="_blank" rel="noopener noreferrer" aria-label="Bazaar.in, a governed demo company">
+          <a href="https://abhed-bazaar.onrender.com" target="_blank" rel="noopener noreferrer" aria-label="Bazaar.in, a governed demo company">
             <svg viewBox="0 0 28 28" aria-hidden="true">
               <circle cx="14" cy="14" r="12.35" fill="none" stroke="currentColor" strokeWidth="3.1" />
               <path d="M7.5 15.5c2.2-4.6 7.8-4.6 10-.6" fill="none" stroke="currentColor" strokeWidth="3.1" strokeLinecap="round" />
