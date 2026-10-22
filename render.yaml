@@ -17,7 +17,7 @@ services:
         value: 20.19.0
       - key: SITE
         value: novabank
-      - key: KAVACH_URL
+      - key: ABHED_URL
         value: https://abhed.vercel.app
       - key: ADMIN_PIN
         sync: false
@@ -40,7 +40,7 @@ services:
         value: 20.19.0
       - key: SITE
         value: sanjeevani
-      - key: KAVACH_URL
+      - key: ABHED_URL
         value: https://abhed.vercel.app
       - key: ADMIN_PIN
         sync: false
@@ -63,7 +63,7 @@ services:
         value: 20.19.0
       - key: SITE
         value: bazaar
-      - key: KAVACH_URL
+      - key: ABHED_URL
         value: https://abhed.vercel.app
       - key: ADMIN_PIN
         sync: false
