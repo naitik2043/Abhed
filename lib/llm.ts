@@ -9,7 +9,10 @@ export const GUARD_MODEL = 'meta-llama/llama-prompt-guard-2-86m';
 // rupees per token, blended input/output (gpt-oss-120b on Groq ≈ $0.15 in / $0.60 out per 1M tokens)
 export const INR_PER_TOKEN = 0.00003;
 
+let upstreamUnavailable = false;
+
 function route() {
+  if (upstreamUnavailable) return null;
   if (process.env.GROQ_API_KEY) return { url: 'https://api.groq.com/openai/v1/chat/completions', key: process.env.GROQ_API_KEY, via: 'groq' };
   const sb = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_KEY;
@@ -50,7 +53,11 @@ export async function chat(body: { messages: ChatMessage[]; tools?: unknown[]; m
       headers: { 'content-type': 'application/json', authorization: `Bearer ${r.key}` },
       body: JSON.stringify(payload),
     });
-    if (!res.ok) throw new Error(`LLM ${res.status}: ${(await res.text()).slice(0, 200)}`);
+    if (!res.ok) {
+      const detail = (await res.text()).slice(0, 200);
+      if (res.status === 404) upstreamUnavailable = true;
+      throw new Error(`LLM ${res.status}: ${detail}`);
+    }
     const data = (await res.json()) as { choices?: { message?: ChatResult['message'] }[]; usage?: { total_tokens?: number } };
     const m = data.choices?.[0]?.message;
     if (!m) throw new Error('LLM returned nothing');
