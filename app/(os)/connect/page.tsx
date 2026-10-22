@@ -34,10 +34,21 @@ const DECISION: Record<string, [string, string]> = {
 };
 const clock = (ts: number) => new Date(ts).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
 const host = (u?: string) => (u ?? '').replace(/^https?:\/\//, '');
+const companyKey = (value?: string) => (value ?? '').toLowerCase().replace(/[^a-z0-9]+/g, '');
+const siteHost = (value?: string) => {
+  if (!value?.trim()) return '';
+  try {
+    const url = /^https?:\/\//i.test(value) ? value : 'https://' + value;
+    return new URL(url).hostname.toLowerCase().replace(/^www\./, '');
+  } catch {
+    return '';
+  }
+};
 
 export default function ConnectPage() {
   const [s, setS] = useState<State | null>(null);
   const [open, setOpen] = useState<string | null>(null);
+  const [gatewayOpen, setGatewayOpen] = useState<string | null>(null);
   const [joined, setJoined] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [now, setNow] = useState(() => Date.now());
@@ -103,6 +114,15 @@ export default function ConnectPage() {
   }
   const baseUrl = `${origin}/api/gw/v1`;
   const mine = created ? gw.find((c) => c.id === created.id) : null;
+  const sdkHosts = new Set((s?.companies ?? []).map((c) => siteHost(c.site?.url)).filter(Boolean));
+  const sdkNames = new Set((s?.companies ?? []).map((c) => companyKey(c.company)).filter(Boolean));
+  const visibleGateway = gw.filter((c, index) => {
+    const h = siteHost(c.site);
+    if ((h && sdkHosts.has(h)) || (!h && sdkNames.has(companyKey(c.name)))) return false;
+    return h
+      ? gw.findIndex((x) => siteHost(x.site) === h) === index
+      : gw.findIndex((x) => !siteHost(x.site) && companyKey(x.name) === companyKey(c.name)) === index;
+  });
 
   const left = s?.pending ? Math.max(0, Math.round((s.pending.exp - now) / 1000)) : 0;
   const j = joined ? s?.companies.find((c) => c.tenant === joined) : null;
@@ -179,7 +199,8 @@ export default function ConnectPage() {
             ) : (
               <>
                 <div className="cn-label">Connect any company · no code</div>
-                <p className="cn-copy">Abhed gives the company an address and a key. They paste both into their agents’ AI settings, where an OpenAI-compatible endpoint goes. Every agent is governed from its next message.</p>
+                <p className="cn-copy">Connect a site with No code or Abhed SDK. You can use both for the same site; Abhed groups them under one website entry. Abhed gives the company an address and a key. They paste both into their agents’ AI settings, where an OpenAI-compatible endpoint goes. Every agent is governed from its next message.</p>
+                <p className="cn-copy">Use one connection method per website. If a site is already paired with Abhed SDK, it appears under that existing site entry instead of being added again here.</p>
                 <input className="input cn-in" placeholder="Company name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
                 <input className="input cn-in" placeholder="Website (optional)" value={form.site} onChange={(e) => setForm({ ...form, site: e.target.value })} />
                 <button
@@ -190,6 +211,7 @@ export default function ConnectPage() {
                     if (j) {
                       setCreated({ id: String(j.id), key: String(j.key) });
                       setOpen(`gw:${String(j.id)}`);
+                      setGatewayOpen(String(j.id));
                     }
                   }}
                 >
@@ -271,15 +293,19 @@ export default function ConnectPage() {
 
         <section className="cn-list">
           <div className="cn-list-h">
-            In Abhed <span className="dim">{s ? s.companies.length + gw.length : '…'}</span>
+            In Abhed <span className="dim">{s ? s.companies.length + visibleGateway.length : '…'}</span>
           </div>
-          {s && s.companies.length + gw.length === 0 && <div className="panel dim">No companies yet.</div>}
-          {gw.map((c) => (
+          {s && s.companies.length + visibleGateway.length === 0 && <div className="panel dim">No companies yet.</div>}
+          {visibleGateway.map((c) => (
             <GwRow key={c.id} c={c} open={open === `gw:${c.id}`} toggle={() => setOpen(open === `gw:${c.id}` ? null : `gw:${c.id}`)} fresh={created?.id === c.id} busy={busy} post={gpost} withPin={async (label, body) => { const pin = window.prompt(`${label}\nPIN:`); if (!pin) return; if (await gpost({ ...body, pin })) setCreated(null); }} onKey={(key) => { setMode('nocode'); setCreated({ id: c.id, key }); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />
           ))}
           {s?.companies.map((c) => {
             const on = c.agents.filter((a) => a.online).length;
             const isOpen = open === c.tenant;
+            const gateways = gw.filter((g) => {
+              const gh = siteHost(g.site);
+              return gh ? gh === siteHost(c.site?.url) : companyKey(g.name) === companyKey(c.company);
+            });
             return (
               <article key={c.tenant} className={`panel cn-co ${isOpen ? 'open' : ''} ${joined === c.tenant ? 'fresh' : ''}`}>
                 <button className="cn-row" onClick={() => setOpen(isOpen ? null : c.tenant)} aria-expanded={isOpen}>
@@ -289,6 +315,7 @@ export default function ConnectPage() {
                     <span className="dim">
                       {c.industry} · {host(c.site?.url) || 'setup'}
                     </span>
+                    {gateways.length > 0 && <span className="dim">No code · {gateways.length} Gateway connection{gateways.length === 1 ? '' : 's'} also configured</span>}
                   </span>
                   <span className={`cn-on ${on ? 'yes' : ''}`}>
                     <i /> {on}/{c.agents.length} online
@@ -299,6 +326,7 @@ export default function ConnectPage() {
                 </button>
                 {isOpen && (
                   <div className="cn-detail">
+                    {gateways.map((gateway) => <GwRow key={gateway.id} c={gateway} open={gatewayOpen === gateway.id} toggle={() => setGatewayOpen(gatewayOpen === gateway.id ? null : gateway.id)} fresh={created?.id === gateway.id} busy={busy} post={gpost} withPin={async (label, body) => { const pin = window.prompt(`${label}\nPIN:`); if (!pin) return; if (await gpost({ ...body, pin })) setCreated(null); }} onKey={(key) => { setMode('nocode'); setCreated({ id: gateway.id, key }); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />)}
                     <div className="cn-sec">
                       <div className="cn-sec-h">Agents</div>
                       {c.agents.map((a) => (

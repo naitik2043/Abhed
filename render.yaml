@@ -25,6 +25,12 @@ services:
         sync: false
       - key: ABHED_ADMIN_KEY
         sync: false
+      - key: ABHED_GATEWAY_URL
+        value: https://abhed.vercel.app/api/gw/v1
+      - key: ABHED_GATEWAY_KEY
+        sync: false
+      - key: ABHED_GATEWAY_MODEL
+        value: openai/gpt-oss-120b
       - key: SITE_COOKIE_SECRET
         generateValue: true
 
@@ -48,6 +54,12 @@ services:
         sync: false
       - key: ABHED_ADMIN_KEY
         sync: false
+      - key: ABHED_GATEWAY_URL
+        value: https://abhed.vercel.app/api/gw/v1
+      - key: ABHED_GATEWAY_KEY
+        sync: false
+      - key: ABHED_GATEWAY_MODEL
+        value: openai/gpt-oss-120b
       - key: SITE_COOKIE_SECRET
         generateValue: true
 
@@ -71,6 +83,12 @@ services:
         sync: false
       - key: ABHED_ADMIN_KEY
         sync: false
+      - key: ABHED_GATEWAY_URL
+        value: https://abhed.vercel.app/api/gw/v1
+      - key: ABHED_GATEWAY_KEY
+        sync: false
+      - key: ABHED_GATEWAY_MODEL
+        value: openai/gpt-oss-120b
       - key: SITE_COOKIE_SECRET
         generateValue: true
 

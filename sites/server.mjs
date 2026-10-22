@@ -26,6 +26,9 @@ const ABHED_URL = (process.env.ABHED_URL ?? process.env.KAVACH_URL ?? 'https://a
 const PORT = Number(process.env.PORT ?? 4000);
 const PUBLIC_URL = (process.env.RENDER_EXTERNAL_URL ?? process.env.PUBLIC_URL ?? `http://localhost:${PORT}`).replace(/\/$/, '');
 const ADMIN_PIN = process.env.ADMIN_PIN ?? '2468';
+const GATEWAY_URL = (process.env.ABHED_GATEWAY_URL ?? `${ABHED_URL}/api/gw/v1`).replace(/\/$/, '');
+const GATEWAY_KEY = process.env.ABHED_GATEWAY_KEY ?? '';
+const GATEWAY_MODEL = process.env.ABHED_GATEWAY_MODEL ?? 'openai/gpt-oss-120b';
 const STATE_FILE = process.env.ABHED_STATE_FILE ?? `/tmp/abhed-${SITE.tenant}.json`;
 
 // ───────── the link to Abhed: env keys, or keys received by pairing (kept on disk while the instance lives) ─────────
@@ -73,7 +76,7 @@ const profiles = new Map();
 function useKeys(keys, adminKey) {
   KEYS = keys ?? {};
   ADMIN_KEY = adminKey ?? '';
-  clients = Object.fromEntries(SITE.agents.filter((a) => KEYS[a.id]).map((a) => [a.id, new Abhed({ url: ABHED_URL, key: KEYS[a.id], site: SITE.brand })]));
+  clients = Object.fromEntries(SITE.agents.filter((a) => KEYS[a.id]).map((a) => [a.id, new Abhed({ url: ABHED_URL, key: KEYS[a.id], site: SITE.brand, gatewayUrl: GATEWAY_URL, gatewayKey: GATEWAY_KEY, gatewayModel: GATEWAY_MODEL })]));
   profiles.clear();
 }
 useKeys(KEYS, ADMIN_KEY);
@@ -211,7 +214,7 @@ const server = createServer(async (req, res) => {
       return send(res, 404, { error: 'not found' });
     }
     if (url.pathname === '/health') return send(res, 200, { ok: true, site: SITE.brand, agents: Object.keys(clients) });
-    if (url.pathname === '/api/connection') return send(res, 200, { connected: connected(), since: link.since, via: link.via, error: link.error, abhed: ABHED_URL, agents: SITE.agents.map((a) => ({ id: a.id, name: a.name, online: !!clients[a.id] })) });
+    if (url.pathname === '/api/connection') return send(res, 200, { connected: connected(), since: link.since, via: link.via, error: link.error, abhed: ABHED_URL, gateway: Boolean(GATEWAY_KEY), agents: SITE.agents.map((a) => ({ id: a.id, name: a.name, online: !!clients[a.id] })) });
     if (url.pathname === '/api/data') return send(res, 200, await data());
     if (url.pathname === '/api/protection') {
       // why these agents need Abhed: what they tried that was stopped or sent to a person, from Abhed's ledger
