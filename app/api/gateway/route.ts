@@ -5,6 +5,20 @@ export const dynamic = 'force-dynamic';
 
 const ONLINE_MS = 60_000;
 
+function companyKey(value: string) {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, '');
+}
+
+function siteHost(value?: string) {
+  if (!value?.trim()) return '';
+  try {
+    const url = /^https?:\/\//i.test(value) ? value : 'https://' + value;
+    return new URL(url).hostname.toLowerCase().replace(/^www\./, '');
+  } catch {
+    return '';
+  }
+}
+
 /** Every no-code company: its discovered agents, the live decision stream and anything waiting for a person. */
 export async function GET() {
   const d = await getGateway();
@@ -32,7 +46,16 @@ export async function POST(req: Request) {
       const name = String(b.name ?? '').trim();
       if (name.length < 2) return json({ error: 'Give the company a name' }, 400);
       const site = String(b.site ?? '').trim();
-      return json(await addGatewayCompany(name, site ? (/^https?:\/\//.test(site) ? site : `https://${site}`) : undefined));
+      const normalizedSite = site ? (/^https?:\/\//i.test(site) ? site : 'https://' + site) : '';
+      const host = siteHost(normalizedSite);
+      const gateway = await getGateway();
+      // No-code and SDK are independent connection methods and may coexist for one site.
+      // Only prevent duplicate entries within the no-code Gateway itself.
+      const gatewayMatch = gateway.companies.find((c) => host
+        ? siteHost(c.site) === host
+        : companyKey(c.name) === companyKey(name));
+      if (gatewayMatch) return json({ error: gatewayMatch.name + ' already has an AI Gateway entry for this website.' }, 409);
+      return json(await addGatewayCompany(name, normalizedSite || undefined));
     }
     case 'rotate': {
       const key = await rotateKey(id);
