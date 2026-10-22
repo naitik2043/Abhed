@@ -27,7 +27,18 @@ export interface Registry {
 }
 const emptyRegistry = (): Registry => ({ version: 0, code: null, exp: null, log: [] });
 
-export const conn = (w: World): Connection => w.connection ?? { status: 'connected', timeline: [] };
+const LEGACY_SITE_URLS: Record<string, string> = {
+  'https://novabank-agents.onrender.com': 'https://abhed-novabank.onrender.com',
+  'https://sanjeevani-agents.onrender.com': 'https://abhed-sanjeevani.onrender.com',
+  'https://bazaar-agents.onrender.com': 'https://abhed-bazaar.onrender.com',
+};
+
+export const conn = (w: World): Connection => {
+  const connection = w.connection ?? { status: 'connected' as const, timeline: [] };
+  const site = connection.site;
+  const currentUrl = site && LEGACY_SITE_URLS[site.url.replace(/\\/$/, '')];
+  return currentUrl && site ? { ...connection, site: { ...site, url: currentUrl } } : connection;
+};
 export const isVisible = (w: World) => conn(w).status === 'connected';
 const note = (list: Note[], text: string, tone: Note['tone'] = 'info', at = Date.now()) => {
   list.push({ at, text, tone });
