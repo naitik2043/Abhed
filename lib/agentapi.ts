@@ -1,5 +1,5 @@
 import { agent, nameOf, type GatewayResult } from './engine';
-import { chat, promptGuard, type ChatMessage } from './llm';
+import { chat, promptGuard, type ChatMessage, type ChatResult } from './llm';
 import { keyFor } from './live';
 import { onApprovalDecided } from './runs';
 import { OWASP, scanInjection, securityEvent } from './security';
@@ -120,7 +120,7 @@ export async function think(tenant: Tenant, agentId: string, sessionId: string, 
   const ag = agent(w0, agentId);
   if (ag && (ag.status === 'PAUSED' || ag.keyRevoked)) throw new GovError(`${ag.name} is paused (${ag.statusReason ?? 'by its owner'}); the LLM gateway refuses it too.`, 423);
   const messages = (body.messages ?? []).slice(-30).map((m) => ({ role: m.role, content: typeof m.content === 'string' ? m.content.slice(0, 6000) : m.content ?? null, tool_calls: m.tool_calls, tool_call_id: m.tool_call_id }));
-  let r;
+  let r: ChatResult;
   try {
     r = await chat({ messages, tools: body.tools, max_tokens: 900 });
   } catch (error) {
