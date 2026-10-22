@@ -72,7 +72,7 @@ git push -u origin main
    SUPABASE_URL=https://<project>.supabase.co
    SUPABASE_KEY=<publishable key>
    SUPABASE_SERVICE_ROLE_KEY=<secret API key; server-side only>
-   KAVACH_AGENT_SECRET=<long random value; optional but recommended>
+   ABHED_AGENT_SECRET=<long random value; optional but recommended>
    GROQ_API_KEY=<optional>
    GEMINI_API_KEY=<optional>
    DIRECTOR_KEY=<optional random string to lock demo controls>
@@ -97,7 +97,7 @@ git push -u origin main
 2. For EACH of the 3 SDK sites (novabank/sanjeevani/bazaar), set env vars in Render:
    ```
    SITE=novabank              # or sanjeevani / bazaar
-   KAVACH_URL=https://<your-main-app>.vercel.app   # NO trailing slash
+   ABHED_URL=https://<your-main-app>.vercel.app   # NO trailing slash
    ADMIN_PIN=2468             # change per site; used at /admin
    ABHED_KEYS={}             # leave empty — filled by pairing
    ABHED_ADMIN_KEY=          # leave empty — filled by pairing
@@ -154,11 +154,11 @@ Zentro (no-code path, zero code change):
 | `SUPABASE_URL` | Vercel main | Yes (prod) | Supabase project URL |
 | `SUPABASE_KEY` | Vercel main | Yes (prod) | Publishable key for restricted account RPCs |
 | `SUPABASE_SERVICE_ROLE_KEY` | Vercel main | Yes (prod) | Secret key; server-only access to shared state |
-| `KAVACH_AGENT_SECRET` | Vercel main | Recommended | Stable random signing secret; server-only |
+| `ABHED_AGENT_SECRET` | Vercel main | Recommended | Stable random signing secret; server-only |
 | `GROQ_API_KEY` | Vercel main | No | Real LLM planner; else offline planner |
 | `GEMINI_API_KEY` | Vercel main | No | Fallback LLM |
 | `DIRECTOR_KEY` | Vercel main | No | Locks `/api/command` demo controls |
-| `KAVACH_URL` | Render sites | Yes | Main app URL, no trailing slash |
+| `ABHED_URL` | Render sites | Yes | Main app URL, no trailing slash |
 | `SITE` | Render sites | Yes | `novabank`/`sanjeevani`/`bazaar` |
 | `ABHED_KEYS` | Render sites | Via pairing | JSON map agent->`kv_live_*` |
 | `ABHED_ADMIN_KEY` | Render sites | Via pairing | Site admin key |
@@ -174,7 +174,7 @@ Zentro (no-code path, zero code change):
 |---------|-------|-----|
 | `/api/health` shows `"store":"memory"` | `SUPABASE_URL` or server-only `SUPABASE_SERVICE_ROLE_KEY` missing on Vercel | Add vars, Redeploy (not just Restart) |
 | `401 Unknown Abhed gateway key` | Wrong/rotated `kv_gw_*` | Generate new key in Connect row, paste again |
-| `fetch failed` / timeout from site | Wrong `KAVACH_URL` | Must be exactly `https://<app>/api/gw/v1` for no-code, `https://<app>` for SDK |
+| `fetch failed` / timeout from site | Wrong `ABHED_URL` | Must be exactly `https://<app>/api/gw/v1` for no-code, `https://<app>` for SDK |
 | `400 Streaming is not supported` | Client sends `stream:true` | Set `stream:false` |
 | Agent shows `Agent 3F2A` | No name detected | Start system prompt with `You are <Name>` or set OpenAI `user` field |
 | Render 502 / sleeping | Free tier cold start | Wait 60s, reload |
@@ -193,9 +193,9 @@ npm run dev        # http://localhost:3000
 npm test           # 62 tests
 npm run typecheck
 # demo sites locally (3 terminals):
-SITE=novabank KAVACH_URL=http://localhost:3000 ADMIN_PIN=2468 node sites/server.mjs
-SITE=sanjeevani KAVACH_URL=http://localhost:3000 ADMIN_PIN=2468 node sites/server.mjs
-SITE=bazaar KAVACH_URL=http://localhost:3000 ADMIN_PIN=2468 node sites/server.mjs
+SITE=novabank ABHED_URL=http://localhost:3000 ADMIN_PIN=2468 node sites/server.mjs
+SITE=sanjeevani ABHED_URL=http://localhost:3000 ADMIN_PIN=2468 node sites/server.mjs
+SITE=bazaar ABHED_URL=http://localhost:3000 ADMIN_PIN=2468 node sites/server.mjs
 node sites/zentro/server.mjs   # :4200
 # real agent processes:
 npm run agents -- --url http://localhost:3000
