@@ -120,7 +120,19 @@ export async function think(tenant: Tenant, agentId: string, sessionId: string, 
   const ag = agent(w0, agentId);
   if (ag && (ag.status === 'PAUSED' || ag.keyRevoked)) throw new GovError(`${ag.name} is paused (${ag.statusReason ?? 'by its owner'}); the LLM gateway refuses it too.`, 423);
   const messages = (body.messages ?? []).slice(-30).map((m) => ({ role: m.role, content: typeof m.content === 'string' ? m.content.slice(0, 6000) : m.content ?? null, tool_calls: m.tool_calls, tool_call_id: m.tool_call_id }));
-  const r = await chat({ messages, tools: body.tools, max_tokens: 900 });
+  let r;
+  try {
+    r = await chat({ messages, tools: body.tools, max_tokens: 900 });
+  } catch (error) {
+    const reason = error instanceof Error ? error.message.slice(0, 240) : 'Unknown model gateway error';
+    await mutate((w) => {
+      const run = findRun(w, sessionId, agentId);
+      run.status = 'failed';
+      step(run, { kind: 'final', text: `No operation was executed. Abhed’s model gateway failed: ${reason}` });
+      return null;
+    }, tenant);
+    throw error;
+  }
   await mutate((w) => {
     const run = findRun(w, sessionId, agentId);
     const a = agent(w, agentId);
