@@ -43,7 +43,7 @@ const lines = [
   'New > Blueprint > select repo > Apply (4 services).',
   'Build npm install. Start node sites/server.mjs (zentro: node sites/zentro/server.mjs).',
   'Health /health. Free tier sleeps ~50s cold start (normal).',
-  'SDK sites env: SITE, KAVACH_URL (no slash), ADMIN_PIN, KAVACH_KEYS={}, KAVACH_ADMIN_KEY empty.',
+  'SDK sites env: SITE, KAVACH_URL (no slash), ADMIN_PIN, ABHED_KEYS={}, ABHED_ADMIN_KEY empty.',
   'Zentro env: only ADMIN_PIN.',
   '',
   '7. LINK SITES TO ABHED (pairing, 2 min/site)',
@@ -62,7 +62,7 @@ const lines = [
   '',
   '10. ENV REFERENCE',
   'Vercel: SUPABASE_URL*, SUPABASE_KEY*, SUPABASE_SERVICE_ROLE_KEY*, KAVACH_AGENT_SECRET?, GROQ/GEMINI?, DIRECTOR_KEY?.',
-  'Render SDK: KAVACH_URL*, SITE*, ADMIN_PIN*, KAVACH_KEYS (pairing), KAVACH_ADMIN_KEY (pairing).',
+  'Render SDK: KAVACH_URL*, SITE*, ADMIN_PIN*, ABHED_KEYS (pairing), ABHED_ADMIN_KEY (pairing).',
   'PORT auto on all hosts; start script is next start.',
   'Full text: DEPLOYMENT.md + deployment.imp in repo root.',
 ];
