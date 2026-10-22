@@ -12,9 +12,9 @@ export const dynamic = 'force-dynamic';
 const ON_SITE: Record<string, string[]> = { banking: ['rex', 'aria'], healthcare: ['rxa', 'claimy'], ecommerce: ['shoppy', 'pricer'] };
 
 const SITES: Record<string, string> = {
-  banking: process.env.SITE_URL_BANKING ?? 'https://novabank-agents.onrender.com',
-  healthcare: process.env.SITE_URL_HEALTHCARE ?? 'https://sanjeevani-agents.onrender.com',
-  ecommerce: process.env.SITE_URL_ECOMMERCE ?? 'https://bazaar-agents.onrender.com',
+  banking: process.env.SITE_URL_BANKING ?? 'https://abhed-novabank.onrender.com',
+  healthcare: process.env.SITE_URL_HEALTHCARE ?? 'https://abhed-sanjeevani.onrender.com',
+  ecommerce: process.env.SITE_URL_ECOMMERCE ?? 'https://abhed-bazaar.onrender.com',
 };
 
 /** Every company Abhed governs, live: agents, sessions, approvals, decisions, speed. */
