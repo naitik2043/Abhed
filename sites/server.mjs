@@ -22,7 +22,7 @@ if (process.env.SITE === 'zentro') {
 async function startSite() {
 const SITE = SITES[process.env.SITE ?? 'novabank'];
 if (!SITE) throw new Error(`Unknown SITE ${process.env.SITE}`);
-const KAVACH_URL = (process.env.KAVACH_URL ?? 'https://abhed.vercel.app').replace(/\/$/, '');
+const ABHED_URL = (process.env.ABHED_URL ?? process.env.KAVACH_URL ?? 'https://abhed.vercel.app').replace(/\/$/, '');
 const PORT = Number(process.env.PORT ?? 4000);
 const PUBLIC_URL = (process.env.RENDER_EXTERNAL_URL ?? process.env.PUBLIC_URL ?? `http://localhost:${PORT}`).replace(/\/$/, '');
 const ADMIN_PIN = process.env.ADMIN_PIN ?? '2468';
@@ -58,8 +58,8 @@ function isAdmin(req) {
   const got = Buffer.from(sig ?? '');
   return got.length === want.length && timingSafeEqual(got, want) && Number(exp) > Date.now();
 }
-async function kavachAdmin(path, body) {
-  const res = await fetch(`${KAVACH_URL}${path}`, {
+async function abhedAdmin(path, body) {
+  const res = await fetch(`${ABHED_URL}${path}`, {
     method: body ? 'POST' : 'GET',
     headers: { authorization: `Bearer ${ADMIN_KEY}`, 'content-type': 'application/json' },
     body: body ? JSON.stringify(body) : undefined,
@@ -73,14 +73,14 @@ const profiles = new Map();
 function useKeys(keys, adminKey) {
   KEYS = keys ?? {};
   ADMIN_KEY = adminKey ?? '';
-  clients = Object.fromEntries(SITE.agents.filter((a) => KEYS[a.id]).map((a) => [a.id, new Abhed({ url: KAVACH_URL, key: KEYS[a.id], site: SITE.brand })]));
+  clients = Object.fromEntries(SITE.agents.filter((a) => KEYS[a.id]).map((a) => [a.id, new Abhed({ url: ABHED_URL, key: KEYS[a.id], site: SITE.brand })]));
   profiles.clear();
 }
 useKeys(KEYS, ADMIN_KEY);
 const connected = () => Object.keys(clients).length > 0;
 
 async function pairWith(code) {
-  const r = await fetch(`${KAVACH_URL}/api/connect/pair`, {
+  const r = await fetch(`${ABHED_URL}/api/connect/pair`, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     // the website introduces itself: Abhed knew nothing about this company until now
@@ -115,7 +115,7 @@ async function beat() {
   for (const a of SITE.agents) {
     const key = KEYS[a.id];
     if (!key) continue;
-    const r = await fetch(`${KAVACH_URL}/api/connect/heartbeat`, { method: 'POST', headers: { authorization: `Bearer ${key}`, 'content-type': 'application/json' }, body: JSON.stringify({ site: host }) }).catch(() => null);
+    const r = await fetch(`${ABHED_URL}/api/connect/heartbeat`, { method: 'POST', headers: { authorization: `Bearer ${key}`, 'content-type': 'application/json' }, body: JSON.stringify({ site: host }) }).catch(() => null);
     if (r?.status === 403) {
       dropLink('Abhed disconnected this website. Ask the Abhed operator for a new pairing code.');
       return;
@@ -168,8 +168,8 @@ async function data() {
 const server = createServer(async (req, res) => {
   const url = new URL(req.url, 'http://x');
   try {
-    if (req.method === 'GET' && url.pathname === '/') return send(res, 200, page(SITE, KAVACH_URL), 'text/html; charset=utf-8');
-    if (req.method === 'GET' && url.pathname === '/admin') return send(res, 200, adminPage(SITE, KAVACH_URL), 'text/html; charset=utf-8');
+    if (req.method === 'GET' && url.pathname === '/') return send(res, 200, page(SITE, ABHED_URL), 'text/html; charset=utf-8');
+    if (req.method === 'GET' && url.pathname === '/admin') return send(res, 200, adminPage(SITE, ABHED_URL), 'text/html; charset=utf-8');
     if (req.method === 'POST' && url.pathname === '/admin/api/login') {
       if (pinTries.n >= 5 && Date.now() < pinTries.until) return send(res, 429, { error: 'Too many attempts, wait a minute' });
       const b = await readBody(req);
@@ -190,33 +190,33 @@ const server = createServer(async (req, res) => {
         const r = await pairWith(String(b.code ?? '').trim().toUpperCase());
         return send(res, r.status, r.data);
       }
-      if (!connected() || !ADMIN_KEY) return send(res, 409, { error: 'Not connected to Abhed yet', notConnected: true, abhed: KAVACH_URL });
+      if (!connected() || !ADMIN_KEY) return send(res, 409, { error: 'Not connected to Abhed yet', notConnected: true, abhed: ABHED_URL });
       if (sub === 'overview') {
-        const r = await kavachAdmin('/api/v1/admin');
+        const r = await abhedAdmin('/api/v1/admin');
         return send(res, r.status, r.data);
       }
       if (sub === 'report') {
-        const r = await kavachAdmin(`/api/v1/admin?report=${encodeURIComponent(url.searchParams.get('batch') ?? '')}`);
+        const r = await abhedAdmin(`/api/v1/admin?report=${encodeURIComponent(url.searchParams.get('batch') ?? '')}`);
         return send(res, r.status, r.data);
       }
       if (sub === 'op' && req.method === 'POST') {
-        const r = await kavachAdmin('/api/v1/admin', await readBody(req));
+        const r = await abhedAdmin('/api/v1/admin', await readBody(req));
         return send(res, r.status, r.data);
       }
       if (sub === 'sample') {
-        const r = await fetch(`${KAVACH_URL}/api/lab/sample?tenant=${SITE.tenant}&kind=${encodeURIComponent(url.searchParams.get('kind') ?? 'tasks')}`);
+        const r = await fetch(`${ABHED_URL}/api/lab/sample?tenant=${SITE.tenant}&kind=${encodeURIComponent(url.searchParams.get('kind') ?? 'tasks')}`);
         res.writeHead(r.status, { 'content-type': 'text/csv; charset=utf-8', 'content-disposition': `attachment; filename="${SITE.tenant}-${url.searchParams.get('kind') ?? 'tasks'}-sample.csv"` });
         return res.end(await r.text());
       }
       return send(res, 404, { error: 'not found' });
     }
     if (url.pathname === '/health') return send(res, 200, { ok: true, site: SITE.brand, agents: Object.keys(clients) });
-    if (url.pathname === '/api/connection') return send(res, 200, { connected: connected(), since: link.since, via: link.via, error: link.error, abhed: KAVACH_URL, agents: SITE.agents.map((a) => ({ id: a.id, name: a.name, online: !!clients[a.id] })) });
+    if (url.pathname === '/api/connection') return send(res, 200, { connected: connected(), since: link.since, via: link.via, error: link.error, abhed: ABHED_URL, agents: SITE.agents.map((a) => ({ id: a.id, name: a.name, online: !!clients[a.id] })) });
     if (url.pathname === '/api/data') return send(res, 200, await data());
     if (url.pathname === '/api/protection') {
       // why these agents need Abhed: what they tried that was stopped or sent to a person, from Abhed's ledger
       if (!ADMIN_KEY || !connected()) return send(res, 200, { available: false, connected: false });
-      const r = await kavachAdmin('/api/v1/admin');
+      const r = await abhedAdmin('/api/v1/admin');
       if (r.status !== 200) return send(res, 200, { available: false });
       const o = r.data;
       const mine = new Set(SITE.agents.map((a) => a.name));
@@ -265,5 +265,5 @@ const server = createServer(async (req, res) => {
     send(res, 500, { error: e.message });
   }
 });
-server.listen(PORT, () => console.log(`${SITE.brand} on :${PORT} → governed by ${KAVACH_URL} (${Object.keys(clients).join(', ') || 'no keys'})`));
+server.listen(PORT, () => console.log(`${SITE.brand} on :${PORT} → governed by ${ABHED_URL} (${Object.keys(clients).join(', ') || 'no keys'})`));
 }
