@@ -10,7 +10,7 @@ import { page } from './page.mjs';
 /**
  * A company website with its own AI agents. The agents are this company's code; they plug into
  * Abhed with one key each and the SDK in abhed-sdk.mjs. Keys come either from env
- * (KAVACH_KEYS = {"agentId":"kv_live_…"}) or live, from a one-time pairing code entered in /admin.
+ * (ABHED_KEYS = {"agentId":"kv_live_…"}) or live, from a one-time pairing code entered in /admin.
  */
 // SITE=zentro runs the separate Zentro Logistics website (no Abhed SDK) on the same kind of service
 if (process.env.SITE === 'zentro') {
@@ -29,8 +29,8 @@ const ADMIN_PIN = process.env.ADMIN_PIN ?? '2468';
 const STATE_FILE = process.env.ABHED_STATE_FILE ?? `/tmp/abhed-${SITE.tenant}.json`;
 
 // ───────── the link to Abhed: env keys, or keys received by pairing (kept on disk while the instance lives) ─────────
-let KEYS = JSON.parse(process.env.KAVACH_KEYS ?? '{}');
-let ADMIN_KEY = process.env.KAVACH_ADMIN_KEY ?? '';
+let KEYS = JSON.parse(process.env.ABHED_KEYS ?? '{}');
+let ADMIN_KEY = process.env.ABHED_ADMIN_KEY ?? '';
 let link = { since: Object.keys(KEYS).length ? Date.now() : null, via: Object.keys(KEYS).length ? 'setup' : null, error: null };
 if (!Object.keys(KEYS).length) {
   try {
