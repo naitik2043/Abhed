@@ -9,10 +9,10 @@ RULE 04: LOCAL VERIFY — npm install; npm run typecheck (must pass); npm test (
 RULE 05: START SCRIPT — Must be "next start" (respects $PORT on all hosts). Never hardcode -p 3000 in production.
 RULE 06: NEXT CONFIG — output:'standalone', poweredByHeader:false, reactStrictMode:true. Vercel ignores standalone safely.
 RULE 07: PUSH GITHUB — git init, remote add origin https://github.com/naitik2043/Abhed.git, branch -M main, commit step-by-step (50+ commits), push -u origin main.
-RULE 08: VERCEL MAIN — Import repo, framework Next.js, region bom1 (vercel.json), build npm run build. Set env: SUPABASE_URL, SUPABASE_KEY, SUPABASE_SERVICE_ROLE_KEY, KAVACH_AGENT_SECRET?, GROQ_API_KEY?, GEMINI_API_KEY?, DIRECTOR_KEY?. Deploy. Verify /api/health reports store=postgres.
+RULE 08: VERCEL MAIN — Import repo, framework Next.js, region bom1 (vercel.json), build npm run build. Set env: SUPABASE_URL, SUPABASE_KEY, SUPABASE_SERVICE_ROLE_KEY, ABHED_AGENT_SECRET?, GROQ_API_KEY?, GEMINI_API_KEY?, DIRECTOR_KEY?. Deploy. Verify /api/health reports store=postgres.
 RULE 09: VERCEL CHECK — GET /api/health must return ok:true and store:"postgres" (not memory). Signup + /demo must work.
 RULE 10: RENDER BLUEPRINT — Use render.yaml (4 services: abhed-novabank, abhed-sanjeevani, abhed-bazaar, abhed-zentro). Build npm install. Start node sites/server.mjs (zentro: node sites/zentro/server.mjs). Health /health.
-RULE 11: RENDER ENV SDK SITES — SITE=novabank|sanjeevani|bazaar, KAVACH_URL=https://<vercel-app> (no slash), ADMIN_PIN=change-me, ABHED_KEYS + ABHED_ADMIN_KEY empty (filled by pairing), SITE_COOKIE_SECRET generated.
+RULE 11: RENDER ENV SDK SITES — SITE=novabank|sanjeevani|bazaar, ABHED_URL=https://<vercel-app> (no slash), ADMIN_PIN=change-me, ABHED_KEYS + ABHED_ADMIN_KEY empty (filled by pairing), SITE_COOKIE_SECRET generated.
 RULE 12: RENDER ENV ZENTRO — Only ADMIN_PIN needed. No SDK keys.
 RULE 13: PAIR SDK SITES — Abhed Connect > SDK > Generate code (10 min) > site /admin > login PIN > paste code > Pair. Keys saved to /tmp/abhed-<tenant>.json. Fleet must show agents online.
 RULE 14: CONNECT ZENTRO (NO-CODE) — Abhed Connect > No code > Connect company > copy Base URL + kv_gw_* key > Zentro /admin > AI provider > paste Base URL https://<app>/api/gw/v1 + key, stream:false. curl /api/gw/v1/models with Bearer key must list models.
