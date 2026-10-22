@@ -1,7 +1,7 @@
 /** The company website: a customer dashboard with an AI assistant, and Abhed governing it in plain sight. */
-export function page(site, kavachUrl) {
+export function page(site, abhedUrl) {
   const t = site.theme;
-  const cfg = JSON.stringify({ brand: site.brand, agents: site.agents, prompts: site.prompts, kavachUrl, kind: site.kind, id: site.brand.toLowerCase().replace(/[^a-z]/g, '') });
+  const cfg = JSON.stringify({ brand: site.brand, agents: site.agents, prompts: site.prompts, abhedUrl, kind: site.kind, id: site.brand.toLowerCase().replace(/[^a-z]/g, '') });
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${site.brand} · ${site.kind}</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%278%27 fill=%27%23ededed%27/%3E%3C/svg%3E">
@@ -78,7 +78,7 @@ footer{max-width:1360px;margin:0 auto;padding:0 28px 40px;color:var(--mut2);font
 <nav class="hnav">${(site.nav || []).map((n) => `<span>${n}</span>`).join('')}</nav>
 <div class="hright"><label class="who"><span class="who-l">Signed in as</span> <select id="cust"></select></label>
 <a class="gov" href="/admin">Staff &amp; admin</a>
-<a class="gov abhed" href="${kavachUrl}/fleet" target="_blank" rel="noopener"><svg viewBox="0 0 31.5 48.5"><path d="M21.5 0L21.5 19.5L31.5 19.5L31.5 29L10 48.5L10 28.5L0.5 28.5L0.5 18.5Z" fill="#ededed"/><rect x="0.5" y="18.5" width="9" height="10" fill="#ffffff"/><rect x="22" y="19.5" width="9.5" height="9.5" fill="#ffffff"/></svg><span id="gov-t">Protected by Abhed</span></a></div>
+<a class="gov abhed" href="${abhedUrl}/fleet" target="_blank" rel="noopener"><svg viewBox="0 0 31.5 48.5"><path d="M21.5 0L21.5 19.5L31.5 19.5L31.5 29L10 48.5L10 28.5L0.5 28.5L0.5 18.5Z" fill="#ededed"/><rect x="0.5" y="18.5" width="9" height="10" fill="#ffffff"/><rect x="22" y="19.5" width="9.5" height="9.5" fill="#ffffff"/></svg><span id="gov-t">Protected by Abhed</span></a></div>
 </div></header>
 <div id="offline" class="offline" hidden><div class="offline-in"><span class="off-dot"></span><div><b>Our AI assistants are switched off.</b> This website is not connected to Abhed yet, so no agent may act for a customer. <span class="muted">Staff: open <a href="/admin">Admin</a> and enter the pairing code from Abhed.</span></div></div></div>
 <section class="top">
@@ -101,7 +101,7 @@ footer{max-width:1360px;margin:0 auto;padding:0 28px 40px;color:var(--mut2);font
     <div class="card" style="margin-top:18px"><h3>Our AI agents</h3><div id="agents"></div></div>
   </div>
 </main>
-<footer>How ${site.brand} plugged in: each agent got an Abhed key, and every tool call goes through <code>abhed.call(session, tool, args)</code> (<a href="${kavachUrl}/integrate" target="_blank" style="text-decoration:underline">integration guide</a>). ${site.brand} is a fictional company.</footer>
+<footer>How ${site.brand} plugged in: each agent got an Abhed key, and every tool call goes through <code>abhed.call(session, tool, args)</code> (<a href="${abhedUrl}/integrate" target="_blank" style="text-decoration:underline">integration guide</a>). ${site.brand} is a fictional company.</footer>
 <script>
 const C=${cfg};let D={},agent=C.agents[0].id,cust=null,task=null,seen=0,busy=false,H={},lastQ='';const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));const inr=n=>'₹'+Math.round(Number(n)||0).toLocaleString('en-IN');
@@ -124,7 +124,7 @@ function show(e){
  if(e.type==='session'){$('#sess').textContent=e.sessionId;tr('', '<div class="h"><b>Session '+esc(e.sessionId)+' opened</b>'+(e.tainted?'<span class="chip c-hold">tainted</span>':'<span class="chip c-ok">clean</span>')+'</div>'+(e.tainted?'<div class="r">Scanner flagged: '+esc((e.signals||[]).join(', '))+'. Nothing this task reads may leave the company.</div>':'<div class="r">Task scanned for prompt injection before the model saw it.</div>'))}
  if(e.type==='think'&&e.text)tr('think','💭 '+esc(e.text)+'<div class="r mono">'+esc(e.model||'')+' · '+(e.tokens||0)+' tokens · '+(e.ms||0)+' ms</div>');
  if(e.type==='tool'){tr('', '<div class="h"><b class="mono">'+esc(e.tool)+'</b>'+chip(e.decision)+'</div><div class="r mono">'+esc(JSON.stringify(e.args))+'</div><div class="r">'+esc(e.reason||'')+(e.rule?' · <span class="mono">'+esc(e.rule)+'</span>':'')+' · decided in '+(e.gatewayMs??'?')+' ms · ledger #'+esc(e.record)+'</div>');if(e.decision==='BLOCKED'&&!e.paused)add('sys','🛡 Abhed refused <b>'+esc(e.tool.replace(/_/g,' '))+'</b>: '+esc(e.reason))}
- if(e.type==='waiting'){add('hold','<b>Waiting for one of our people to approve</b> ('+esc(e.approvalId)+').<br>'+esc(e.reason)+'<br><span style="color:var(--mut)">They decide on their phone in the Abhed approver app. The agent pauses until then.</span>');tr('', '<div class="h"><b>Phone approval requested</b><span class="chip c-hold">'+esc(e.approvalId)+'</span></div><div class="r">Pushed to on-duty approvers · <a href="'+C.kavachUrl+'/approve/'+esc(e.approvalId)+'" target="_blank">open ↗</a></div>')}
+ if(e.type==='waiting'){add('hold','<b>Waiting for one of our people to approve</b> ('+esc(e.approvalId)+').<br>'+esc(e.reason)+'<br><span style="color:var(--mut)">They decide on their phone in the Abhed approver app. The agent pauses until then.</span>');tr('', '<div class="h"><b>Phone approval requested</b><span class="chip c-hold">'+esc(e.approvalId)+'</span></div><div class="r">Pushed to on-duty approvers · <a href="'+C.abhedUrl+'/approve/'+esc(e.approvalId)+'" target="_blank">open ↗</a></div>')}
  if(e.type==='approval'){const ok=e.status==='EXECUTED';add('sys',(ok?'✅ Approved by '+esc(e.by)+'. Done exactly as approved.':'⛔ '+esc(e.status.toLowerCase())+(e.by?' by '+esc(e.by):'')));tr('', '<div class="h"><b>'+esc(e.approvalId)+'</b>'+chip(ok?'EXECUTED':e.status)+'</div><div class="r">'+(e.by?'Decided by '+esc(e.by):'')+'</div>')}
  if(e.type==='paused'){add('paused','<b>This agent has been paused by Abhed.</b><br>'+esc(e.text)+'<br><span style="color:var(--mut)">A person from our team will handle your request.</span>');tr('', '<div class="h"><b>Agent paused</b><span class="chip c-no">critical breach</span></div><div class="r">'+esc(e.text)+'</div>')}
  if(e.type==='final'){typing&&typing.remove();typing=null;add('msg bot',esc(e.text).replace(/\\*\\*(.+?)\\*\\*/g,'<b>$1</b>').replace(/[\\[【]([A-Z]{2}-[A-Z]+-\\d+)[\\]】]/g,' <span class="mono" style="font-size:11px;border:1px solid var(--line);border-radius:5px;padding:0 5px;opacity:.8">$1</span>').replace(/\\n/g,'<br>'));const h=(H[agent+':'+(cust||'')]??=[]);h.push({role:'user',content:lastQ},{role:'assistant',content:e.text});if(h.length>12)h.splice(0,h.length-12)}
