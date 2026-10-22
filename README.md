@@ -120,7 +120,7 @@ npm test             # 62 tests
 npm run typecheck
 ```
 
-Environment setup is in `.env.example`: Supabase URL + publishable key for account RPCs, a server-only Supabase secret key for shared state, and optional `KAVACH_AGENT_SECRET`, LLM keys, and `DIRECTOR_KEY`.
+Environment setup is in `.env.example`: Supabase URL + publishable key for account RPCs, a server-only Supabase secret key for shared state, and optional `ABHED_AGENT_SECRET`, LLM keys, and `DIRECTOR_KEY`.
 
 ## Deploy it
 
